@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text / Split playground / Anime.js</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="../../assets/css/styles.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      opacity: 0;
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+      width: 100%;
+      min-height: 100dvh;
+      padding: 2rem;
+      font-family: "Noto Sans JP", sans-serif;
+      font-kerning: none;
+      font-variant-ligatures: none;
+      text-rendering: optimizeSpeed;
+    }
+
+    body.is-ready {
+      opacity: 1;
+    }
+
+    aside {
+      justify-self: flex-end;
+      width: 12rem;
+      padding: .75rem 1rem;
+      border-radius: .5rem;
+      background-color: #404040;
+    }
+
+    aside li {
+      list-style: none;
+      margin-bottom: .5rem;
+    }
+
+    fieldset {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    legend {
+      padding-bottom: .25rem;
+    }
+
+    fieldset:disabled {
+      opacity: .5;
+    }
+
+    fieldset input,
+    fieldset select {
+      width: 50%;
+      margin: 0px;
+      border-radius: .25rem;
+    }
+
+    fieldset input {
+      padding-left: .25rem;
+      padding-right: .25rem;
+    }
+
+    .field {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: .25rem;
+    }
+
+    main {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: 2rem;
+      width: calc(100% - 12rem);
+    }
+
+    article {
+      width: 100%;
+      max-width: 800px;
+      justify-self: center;
+      font-weight: 400;
+    }
+
+    article h1 {
+      font-size: 3em;
+      font-weight: 600;
+      margin-bottom: .5em;
+      line-height: 1.4;
+    }
+
+    article span:has(~ span h1) h1 {
+      margin-bottom: 0;
+    }
+
+    article p {
+      font-size: 1.25rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    article span:has(~ span p) p {
+      margin-bottom: 0;
+    }
+
+    article ul {
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    article span:has(~ span ul) ul {
+      margin-bottom: 0;
+    }
+
+    article a {
+      color: var(--red);
+      text-decoration: underline;
+    }
+
+    article a span {
+      text-decoration: underline;
+    }
+
+    .nested { color: rgba(200, 100, 200, 1) }
+    .nested .nested { color: rgba(200, 100, 200, .8) }
+    .nested .nested .nested { color: rgba(200, 100, 200, .6) }
+    .nested .nested .nested .nested { color: rgba(200, 100, 200, .4) }
+    .nested .nested .nested .nested .nested { color: rgba(200, 100, 200, .2) }
+
+    code {
+      color: rgba(200, 200, 200, 1);
+      font-family: monospace;
+    }
+
+  </style>
+</head>
+<body class="is-debug">
+  <main>
+    <article>
+      <h1>An all-in-one text splitter function to easily split, wrap, and clone text<br></h1>
+      <p>
+        Anime.js <code>text.split()</code> utility function is an easy to use, fully-featured, lightweight and performant modern text splitter for JavaScript.<br>
+        It does all the following in only <strong>7KB</strong>:
+      </p>
+      <ul>
+        <li>Can split text by characters, words, and lines.</li>
+        <li>Support splitting through elements like <a href="#">links with <strong>nested elements like</strong></a> <code>&lt;strong&gt;</code> tags and <span class="nested">any <span class="nested">level <span class="nested">of <span class="nested">nested <span class="nested">tags</span></span></span></span></span> automatically.</li>
+        <li>Element cloning with configurable position.</li>
+        <li>Use your own custom wrapper with a powerful templating system.</li>
+        <li>Split words in languages that don't use spaces like Chinese and Japanese この日本語の文のように.</li>
+        <li>Handles splitting ѕρє¢ιαℓ ¢нαяα¢тєяѕ and 🇪Ⓜ️🅾️🇯ℹ️s.</li>
+        <li>Is accessible for screen readers.</li>
+        <li>And is 100% responsive.</li>
+      </ul>
+      <p>
+        Check out the full documenation and learn more at <a href="https://animejs.com/documentation">animejs.com/documentation</a>.
+      </p>
+    </article>
+  </main>
+  <aside id="parameters">
+    <form id="splitForm">
+      <ul>
+      <li>
+        <legend>
+          <input type="checkbox" id="lines" name="lines">
+          <label for="lines">lines</label>
+        </legend>
+        <fieldset id="lines-options">
+          <div class="field">
+            <label for="lines-wrap">wrap:</label>
+            <select id="lines-wrap" name="lines-wrap">
+              <option value="false">false</option>
+              <option value="clip">clip</option>
+              <option value="visible">visible</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="lines-clone">clone:</label>
+            <select id="lines-clone" name="lines-clone">
+              <option value="false">false</option>
+              <option value="top">top</option>
+              <option value="right">right</option>
+              <option value="bottom">bottom</option>
+              <option value="left">left</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="lines-animate">animate:</label>
+            <select id="lines-animate" name="lines-animate">
+              <option value="false">false</option>
+              <option value="250">200ms</option>
+              <option value="500">500ms</option>
+              <option value="750">750ms</option>
+              <option value="1000">1000ms</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="lines-stagger">stagger:</label>
+            <select id="lines-stagger" name="lines-stagger">
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="200">200</option>
+              <option value="random">random</option>
+            </select>
+          </div>
+        </fieldset>
+      </li>
+      <li>
+        <input type="checkbox" id="words" name="words" checked>
+        <label for="words">words</label>
+        <fieldset id="words-options">
+          <div class="field">
+            <label for="words-wrap">wrap:</label>
+            <select id="words-wrap" name="words-wrap">
+              <option value="false">false</option>
+              <option selected value="clip">clip</option>
+              <option value="visible">visible</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="words-clone">clone:</label>
+            <select id="words-clone" name="words-clone">
+              <option value="false">false</option>
+              <option value="top">top</option>
+              <option value="right">right</option>
+              <option selected value="bottom">bottom</option>
+              <option value="left">left</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="words-animate">animate:</label>
+            <select id="words-animate" name="words-animate">
+              <option value="false">false</option>
+              <option value="250">250ms</option>
+              <option value="500">500ms</option>
+              <option value="750">750ms</option>
+              <option value="1000">1000ms</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="words-stagger">stagger:</label>
+            <select id="words-stagger" name="words-stagger">
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="200">200</option>
+              <option value="random">random</option>
+            </select>
+          </div>
+        </fieldset>
+      </li>
+      <li>
+        <input type="checkbox" id="chars" name="chars">
+        <label for="chars">chars</label>
+        <fieldset id="chars-options">
+          <div class="field">
+            <label for="chars-wrap">wrap:</label>
+            <select id="chars-wrap" name="chars-wrap">
+              <option value="false">false</option>
+              <option value="clip">clip</option>
+              <option value="visible">visible</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="chars-clone">clone:</label>
+            <select id="chars-clone" name="chars-clone">
+              <option value="false">false</option>
+              <option value="top">top</option>
+              <option value="right">right</option>
+              <option value="bottom">bottom</option>
+              <option value="left">left</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="chars-animate">animate:</label>
+            <select id="chars-animate" name="chars-animate">
+              <option value="false">false</option>
+              <option value="250">250ms</option>
+              <option value="500">500ms</option>
+              <option value="750">750ms</option>
+              <option value="1000">1000ms</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="chars-stagger">stagger:</label>
+            <select id="chars-stagger" name="chars-stagger">
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="200">200</option>
+              <option value="random">random</option>
+            </select>
+          </div>
+        </fieldset>
+      </li>
+      <li>
+        <input type="checkbox" id="includeSpaces" name="includeSpaces">
+        <label for="includeSpaces">includeSpaces</label>
+      </li>
+      <li>
+        <input type="checkbox" id="accessible" name="accessible" checked>
+        <label for="accessible">accessible</label>
+      </li>
+      <li>
+        <input type="checkbox" id="debug" name="debug" checked>
+        <label for="debug">debug</label>
+      </li>
+      </ul>
+    </form>
+    <button id="revert" name="revert">Revert</button>
+    <button id="split" name="revert">Split</button>
+  </aside>
+  <script type="module" src="./index.js"></script>
+</body>
+</html>

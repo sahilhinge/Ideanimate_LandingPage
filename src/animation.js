@@ -694,12 +694,13 @@ export class JSAnimation extends Timer {
    */
   refresh() {
     forEachChildren(this, (/** @type {Tween} */tween) => {
-      const ogValue = getOriginalAnimatableValue(tween.target, tween.property, tween._tweenType);
-      decomposeRawValue(ogValue, decomposedOriginalValue);
-      tween._fromNumbers = cloneArray(decomposedOriginalValue.d);
-      tween._fromNumber = decomposedOriginalValue.n;
-      if (tween._func) {
-        decomposeRawValue(tween._func(), toTargetObject);
+      const tweenFunc = tween._func;
+      if (tweenFunc) {
+        const ogValue = getOriginalAnimatableValue(tween.target, tween.property, tween._tweenType);
+        decomposeRawValue(ogValue, decomposedOriginalValue);
+        decomposeRawValue(tweenFunc(), toTargetObject);
+        tween._fromNumbers = cloneArray(decomposedOriginalValue.d);
+        tween._fromNumber = decomposedOriginalValue.n;
         tween._toNumbers = cloneArray(toTargetObject.d);
         tween._strings = cloneArray(toTargetObject.s);
         tween._toNumber = toTargetObject.n;

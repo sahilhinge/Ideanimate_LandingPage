@@ -1,11 +1,23 @@
 import {
-  svg,
   animate,
+  utils,
 } from '../../../lib/anime.esm.js';
 
-animate(svg.createDrawable('svg circle'), {
-  draw: '0 1',
+const buttons = /** @type {Array<HTMLButtonElement>} */(utils.$('.button'));
+
+const colors = ['#0FF', '#F0F', '#FF0'];
+
+const timekeepAnimate = utils.keepTime(duration => animate('.square', {
+  y: 200,
+  scale: utils.random(.8, .9, 2),
+  background: utils.randomPick(colors),
   alternate: true,
   loop: true,
-  duration: 4000,
+  duration
+}));
+
+buttons.forEach($button => {
+  $button.addEventListener('click', () => {
+    timekeepAnimate($button.innerText);
+  });
 });

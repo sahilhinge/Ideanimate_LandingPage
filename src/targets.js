@@ -1,7 +1,7 @@
 /// <reference path='./types.js' />
 
 import {
-  globals,
+  scope,
 } from './globals.js';
 
 import {
@@ -24,7 +24,7 @@ import {
  * @return {NodeList|HTMLCollection}
  */
 export function getNodeList(v) {
-  const n = isStr(v) ? globals.root.querySelectorAll(v) : v;
+  const n = isStr(v) ? scope.root.querySelectorAll(v) : v;
   if (n instanceof NodeList || n instanceof HTMLCollection) return n;
 }
 

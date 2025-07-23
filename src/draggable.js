@@ -1,6 +1,7 @@
 /// <reference path='./types.js' />
 
 import {
+  scope,
   globals,
 } from './globals.js';
 
@@ -194,7 +195,7 @@ export class Draggable {
    */
   constructor(target, parameters = {}) {
     if (!target) return;
-    if (globals.scope) globals.scope.revertibles.push(this);
+    if (scope.current) scope.current.register(this);
     const paramX = parameters.x;
     const paramY = parameters.y;
     const trigger = parameters.trigger;

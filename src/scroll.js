@@ -7,6 +7,7 @@ import {
 } from './consts.js';
 
 import {
+  scope,
   globals,
 } from './globals.js';
 
@@ -413,7 +414,7 @@ export class ScrollObserver {
    * @param {ScrollObserverParams} parameters
    */
   constructor(parameters = {}) {
-    if (globals.scope) globals.scope.revertibles.push(this);
+    if (scope.current) scope.current.register(this);
     const syncMode = setValue(parameters.sync, 'play pause');
     const ease = syncMode ? parseEasings(/** @type {EasingParam} */(syncMode)) : null;
     const isLinear = syncMode && (syncMode === 'linear' || syncMode === none);
