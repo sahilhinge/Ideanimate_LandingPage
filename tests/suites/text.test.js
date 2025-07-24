@@ -356,9 +356,13 @@ suite('Text', () => {
       const split = text.split($p, {
         lines: true,
       })
-      .addEffect(() => {
+      .addEffect(self => {
         calls++;
+        self.words.forEach(($word, i) => $word.setAttribute('data-test', i));
         return () => {
+          self.words.forEach(($word, i) => {
+            expect(+$word.setAttribute('data-test')).to.equal(i);
+          });
           cleanups++;
         }
       });
@@ -394,6 +398,34 @@ suite('Text', () => {
       expect(animation.paused).to.equal(true);
       resolve();
     }, 10);
+  });
+
+  test('refresh() should properly call cleanups function', resolve => {
+    document.fonts.ready.then(() => {
+      let calls = 0;
+      let cleanups = 0;
+      const [ $p ] = utils.$('#split-text p');
+      const split = text.split($p, {
+        lines: true,
+      })
+      .addEffect(self => {
+        calls++;
+        self.words.forEach(($word, i) => $word.setAttribute('data-test', i));
+        return () => {
+          self.words.forEach(($word, i) => {
+            expect(+$word.getAttribute('data-test')).to.equal(i);
+          });
+          cleanups++;
+        }
+      });
+      setTimeout(() => {
+        expect(calls).to.equal(1);
+        expect(cleanups).to.equal(0);
+        split.refresh();
+        split.revert();
+        resolve();
+      }, 10);
+    });
   });
 
 });

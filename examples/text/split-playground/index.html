@@ -17,10 +17,6 @@
       width: 100%;
       min-height: 100dvh;
       padding: 2rem;
-      font-family: "Noto Sans JP", sans-serif;
-      font-kerning: none;
-      font-variant-ligatures: none;
-      text-rendering: optimizeSpeed;
     }
 
     body.is-ready {
@@ -28,49 +24,43 @@
     }
 
     aside {
+      --border-radius: .75rem;
       justify-self: flex-end;
       width: 12rem;
-      padding: .75rem 1rem;
-      border-radius: .5rem;
-      background-color: #404040;
+      border-radius: var(--border-radius);
     }
 
     aside li {
       list-style: none;
-      margin-bottom: .5rem;
+      padding: 1rem;
+      background-color: #404040;
+      margin-bottom: 1px;
     }
 
-    fieldset {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
+    aside li:first-child {
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
     }
 
-    legend {
-      padding-bottom: .25rem;
+    aside li:last-child {
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
     }
 
-    fieldset:disabled {
-      opacity: .5;
-    }
-
-    fieldset input,
-    fieldset select {
+    .field input,
+    .field select {
       width: 50%;
-      margin: 0px;
-      border-radius: .25rem;
-    }
-
-    fieldset input {
-      padding-left: .25rem;
-      padding-right: .25rem;
     }
 
     .field {
       width: 100%;
       display: flex;
       justify-content: space-between;
-      padding-bottom: .25rem;
+      align-items: center;
+    }
+
+    fieldset:disabled .field {
+      opacity: .5;
     }
 
     main {
@@ -85,7 +75,11 @@
       width: 100%;
       max-width: 800px;
       justify-self: center;
+      font-family: "Noto Sans JP", sans-serif;
       font-weight: 400;
+      font-kerning: none;
+      font-variant-ligatures: none;
+      text-rendering: optimizeSpeed;
     }
 
     article h1 {
@@ -95,27 +89,15 @@
       line-height: 1.4;
     }
 
-    article span:has(~ span h1) h1 {
-      margin-bottom: 0;
-    }
-
     article p {
       font-size: 1.25rem;
       line-height: 1.5;
       margin-bottom: 1rem;
     }
 
-    article span:has(~ span p) p {
-      margin-bottom: 0;
-    }
-
     article ul {
       padding-left: 1rem;
       margin-bottom: 1rem;
-    }
-
-    article span:has(~ span ul) ul {
-      margin-bottom: 0;
     }
 
     article a {
@@ -127,15 +109,25 @@
       text-decoration: underline;
     }
 
-    .nested { color: rgba(200, 100, 200, 1) }
-    .nested .nested { color: rgba(200, 100, 200, .8) }
-    .nested .nested .nested { color: rgba(200, 100, 200, .6) }
-    .nested .nested .nested .nested { color: rgba(200, 100, 200, .4) }
-    .nested .nested .nested .nested .nested { color: rgba(200, 100, 200, .2) }
+    .nested { color: rgba(200, 100, 100, 1) }
+    .nested .nested { color: rgba(200, 100, 100, .8) }
+    .nested .nested .nested { color: rgba(200, 100, 100, .6) }
+    .nested .nested .nested .nested { color: rgba(200, 100, 100, .4) }
+    .nested .nested .nested .nested .nested { color: rgba(200, 100, 100, .2) }
 
     code {
       color: rgba(200, 200, 200, 1);
       font-family: monospace;
+    }
+
+    article span:has(~ span h1) h1,
+    article span:has(~ span p) p,
+    article span:has(~ span ul) ul {
+      margin-bottom: 0;
+    }
+
+    article span:has(p) + span:has(ul) {
+      margin-top: 1rem;
     }
 
   </style>
@@ -159,160 +151,158 @@
         <li>And is 100% responsive.</li>
       </ul>
       <p>
-        Check out the full documenation and learn more at <a href="https://animejs.com/documentation">animejs.com/documentation</a>.
+        Check out the full documenation and learn more at <a href="https://animejs.com/documentation/text/split">animejs.com/documentation</a>.
       </p>
     </article>
   </main>
   <aside id="parameters">
     <form id="splitForm">
       <ul>
-      <li>
-        <legend>
-          <input type="checkbox" id="lines" name="lines">
-          <label for="lines">lines</label>
-        </legend>
-        <fieldset id="lines-options">
-          <div class="field">
-            <label for="lines-wrap">wrap:</label>
-            <select id="lines-wrap" name="lines-wrap">
-              <option value="false">false</option>
-              <option value="clip">clip</option>
-              <option value="visible">visible</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="lines-clone">clone:</label>
-            <select id="lines-clone" name="lines-clone">
-              <option value="false">false</option>
-              <option value="top">top</option>
-              <option value="right">right</option>
-              <option value="bottom">bottom</option>
-              <option value="left">left</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="lines-animate">animate:</label>
-            <select id="lines-animate" name="lines-animate">
-              <option value="false">false</option>
-              <option value="250">200ms</option>
-              <option value="500">500ms</option>
-              <option value="750">750ms</option>
-              <option value="1000">1000ms</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="lines-stagger">stagger:</label>
-            <select id="lines-stagger" name="lines-stagger">
-              <option value="10">10</option>
-              <option value="50">50</option>
-              <option value="200">200</option>
-              <option value="random">random</option>
-            </select>
-          </div>
-        </fieldset>
-      </li>
-      <li>
-        <input type="checkbox" id="words" name="words" checked>
-        <label for="words">words</label>
-        <fieldset id="words-options">
-          <div class="field">
-            <label for="words-wrap">wrap:</label>
-            <select id="words-wrap" name="words-wrap">
-              <option value="false">false</option>
-              <option selected value="clip">clip</option>
-              <option value="visible">visible</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="words-clone">clone:</label>
-            <select id="words-clone" name="words-clone">
-              <option value="false">false</option>
-              <option value="top">top</option>
-              <option value="right">right</option>
-              <option selected value="bottom">bottom</option>
-              <option value="left">left</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="words-animate">animate:</label>
-            <select id="words-animate" name="words-animate">
-              <option value="false">false</option>
-              <option value="250">250ms</option>
-              <option value="500">500ms</option>
-              <option value="750">750ms</option>
-              <option value="1000">1000ms</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="words-stagger">stagger:</label>
-            <select id="words-stagger" name="words-stagger">
-              <option value="10">10</option>
-              <option value="50">50</option>
-              <option value="200">200</option>
-              <option value="random">random</option>
-            </select>
-          </div>
-        </fieldset>
-      </li>
-      <li>
-        <input type="checkbox" id="chars" name="chars">
-        <label for="chars">chars</label>
-        <fieldset id="chars-options">
-          <div class="field">
-            <label for="chars-wrap">wrap:</label>
-            <select id="chars-wrap" name="chars-wrap">
-              <option value="false">false</option>
-              <option value="clip">clip</option>
-              <option value="visible">visible</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="chars-clone">clone:</label>
-            <select id="chars-clone" name="chars-clone">
-              <option value="false">false</option>
-              <option value="top">top</option>
-              <option value="right">right</option>
-              <option value="bottom">bottom</option>
-              <option value="left">left</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="chars-animate">animate:</label>
-            <select id="chars-animate" name="chars-animate">
-              <option value="false">false</option>
-              <option value="250">250ms</option>
-              <option value="500">500ms</option>
-              <option value="750">750ms</option>
-              <option value="1000">1000ms</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="chars-stagger">stagger:</label>
-            <select id="chars-stagger" name="chars-stagger">
-              <option value="10">10</option>
-              <option value="50">50</option>
-              <option value="200">200</option>
-              <option value="random">random</option>
-            </select>
-          </div>
-        </fieldset>
-      </li>
-      <li>
-        <input type="checkbox" id="includeSpaces" name="includeSpaces">
-        <label for="includeSpaces">includeSpaces</label>
-      </li>
-      <li>
-        <input type="checkbox" id="accessible" name="accessible" checked>
-        <label for="accessible">accessible</label>
-      </li>
-      <li>
-        <input type="checkbox" id="debug" name="debug" checked>
-        <label for="debug">debug</label>
-      </li>
+        <li>
+          <fieldset class="vertical" id="lines-options">
+            <legend>
+              <label for="lines"><input type="checkbox" id="lines" name="lines"> lines</label>
+            </legend>
+            <div class="field">
+              <label for="lines-wrap">wrap</label>
+              <select id="lines-wrap" name="lines-wrap">
+                <option value="false">false</option>
+                <option value="clip">clip</option>
+                <option value="visible">visible</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="lines-clone">clone</label>
+              <select id="lines-clone" name="lines-clone">
+                <option value="false">false</option>
+                <option value="top">top</option>
+                <option value="right">right</option>
+                <option value="bottom">bottom</option>
+                <option value="left">left</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="lines-animate">animate</label>
+              <select id="lines-animate" name="lines-animate">
+                <option value="false">false</option>
+                <option value="250">200ms</option>
+                <option value="500">500ms</option>
+                <option value="750">750ms</option>
+                <option value="1000">1000ms</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="lines-stagger">stagger</label>
+              <select id="lines-stagger" name="lines-stagger">
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="200">200</option>
+                <option value="random">random</option>
+              </select>
+            </div>
+          </fieldset>
+        </li>
+        <li>
+          <fieldset class="vertical" id="words-options">
+            <legend>
+              <label for="words"><input type="checkbox" id="words" name="words" checked> words</label>
+            </legend>
+            <div class="field">
+              <label for="words-wrap">wrap</label>
+              <select id="words-wrap" name="words-wrap">
+                <option value="false">false</option>
+                <option value="clip">clip</option>
+                <option value="visible">visible</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="words-clone">clone</label>
+              <select id="words-clone" name="words-clone">
+                <option value="false">false</option>
+                <option value="top">top</option>
+                <option value="right">right</option>
+                <option value="bottom">bottom</option>
+                <option value="left">left</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="words-animate">animate</label>
+              <select id="words-animate" name="words-animate">
+                <option value="false">false</option>
+                <option value="250">250ms</option>
+                <option value="500">500ms</option>
+                <option value="750">750ms</option>
+                <option value="1000">1000ms</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="words-stagger">stagger</label>
+              <select id="words-stagger" name="words-stagger">
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="200">200</option>
+                <option value="random">random</option>
+              </select>
+            </div>
+          </fieldset>
+        </li>
+        <li>
+          <fieldset class="vertical" id="chars-options">
+            <legend>
+              <label for="chars"><input type="checkbox" id="chars" name="chars"> chars</label>
+            </legend>
+            <div class="field">
+              <label for="chars-wrap">wrap</label>
+              <select id="chars-wrap" name="chars-wrap">
+                <option value="false">false</option>
+                <option value="clip">clip</option>
+                <option value="visible">visible</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="chars-clone">clone</label>
+              <select id="chars-clone" name="chars-clone">
+                <option value="false">false</option>
+                <option value="top">top</option>
+                <option value="right">right</option>
+                <option value="bottom">bottom</option>
+                <option value="left">left</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="chars-animate">animate</label>
+              <select id="chars-animate" name="chars-animate">
+                <option value="false">false</option>
+                <option value="250">250ms</option>
+                <option value="500">500ms</option>
+                <option value="750">750ms</option>
+                <option value="1000">1000ms</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="chars-stagger">stagger</label>
+              <select id="chars-stagger" name="chars-stagger">
+                <option value="10">10</option>
+                <option value="50">50</option>
+                <option value="200">200</option>
+                <option value="random">random</option>
+              </select>
+            </div>
+          </fieldset>
+        </li>
+        <li>
+          <label for="includeSpaces"><input type="checkbox" id="includeSpaces" name="includeSpaces"> includeSpaces</label>
+          <label for="accessible"><input type="checkbox" id="accessible" name="accessible" checked> accessible</label>
+          <label for="debug"><input type="checkbox" id="debug" name="debug" checked> debug</label>
+        </li>
+        <li>
+          <fieldset>
+            <button type="button" class="button" id="revert" name="revert">Revert</button>
+            <button type="button" class="button" id="split" name="revert">Split</button>
+          </fieldset>
+        </li>
       </ul>
     </form>
-    <button id="revert" name="revert">Revert</button>
-    <button id="split" name="revert">Split</button>
   </aside>
   <script type="module" src="./index.js"></script>
 </body>

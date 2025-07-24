@@ -24,20 +24,6 @@
       text-rendering: optimizeSpeed;
     }
 
-    .controls {
-      display: flex;
-      gap: .5rem;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .button {
-      padding: .125rem .5rem;
-      border: none;
-      border-radius: .125rem;
-    }
-
     main {
       display: flex;
       flex-direction: row;
@@ -65,12 +51,12 @@
       Wave propagation and fluid dynamics encompass several interconnected physical phenomena that govern how water moves through oceanic systems, demonstrating the fundamental principles of energy transfer and momentum conservation. Wave "continuation" describes how energy persists through water long after the initial disturbance has passed, with individual water particles following elliptical orbital paths that decrease in amplitude with depth, creating the illusion of forward motion while actually moving in circular patterns. "Differential flow" occurs because various layers of water move at different velocities—surface currents respond to wind stress differently than deeper thermohaline circulation, and coastal waters behave distinctly from open ocean systems. A related phenomenon is "hydrodynamic lag," where water masses respond gradually to driving forces, whether from atmospheric pressure, gravitational pull, or temperature gradients. This lag affects everything from floating objects like debris and marine organisms to distinct water bodies themselves, such as upwelling zones and convergence areas. In oceanic circulation, deep water acts as the primary driver, with surface waves, spray, and foam representing secondary responses to local conditions. Water masses with different densities, such as warm surface layers and cold deep currents, or areas with varying salinity, exhibit more independent behavior than uniform water columns. Extreme manifestations of these forces create phenomena like rogue waves and storm surges, while calmer conditions require precise balance between competing forces to maintain stable patterns. Even apparently static water bodies demonstrate constant motion through molecular vibration, thermal convection, and microscopic currents that prevent true stagnation and maintain the ocean's dynamic equilibrium.
     </p>
   </main>
-  <div class="controls">
-    <button class="button" id="revert">REVERT</button>
-    <button class="button" id="split">SPLIT & ANIMATE</button>
-    <button class="button" id="reorder">TIDY UP</button>
-    <button class="button" id="debug">SHOW DEBUG</button>
-  </div>
+  <fieldset>
+    <button id="revert">REVERT</button>
+    <button id="split">SPLIT & ANIMATE</button>
+    <button id="reorder">TIDY UP</button>
+    <button id="debug">SHOW DEBUG</button>
+  </fieldset>
   <script type="module" src="./index.js"></script>
 </body>
 </html>
