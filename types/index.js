@@ -1,6 +1,6 @@
 /**
  * anime.js - ESM
- * @version v4.1.0
+ * @version v4.1.1
  * @author Julian Garnier
  * @license MIT
  * @copyright (c) 2025 Julian Garnier
@@ -142,7 +142,7 @@ const globals = {
     /** @type {Number} */
     tickThreshold: 200,
 };
-const globalVersions = { version: '4.1.0', engine: null };
+const globalVersions = { version: '4.1.1', engine: null };
 if (isBrowser) {
     if (!win.AnimeJS)
         win.AnimeJS = [];
@@ -7209,6 +7209,10 @@ class TextSplitter {
         const fontsReady = doc.fonts.status !== 'loading';
         const canSplitLines = lineTemplate && fontsReady;
         this.ready = !lineTemplate || fontsReady;
+        if (canSplitLines || clearCache) {
+            // No need to revert effects animations here since it's already taken care by the refreshable
+            this.effectsCleanups.forEach(cleanup => isFnc(cleanup) && cleanup(this));
+        }
         if (!isCached) {
             if (clearCache) {
                 $el.innerHTML = this.html;
@@ -7217,10 +7221,7 @@ class TextSplitter {
             this.splitNode($el);
             this.cache = $el.innerHTML;
         }
-        // Always reset the html when splitting by lines
         if (canSplitLines) {
-            // No need to revert effects animations here since it's already taken care by the refreshable
-            this.effectsCleanups.forEach(cleanup => isFnc(cleanup) && cleanup(this));
             if (isCached)
                 $el.innerHTML = this.cache;
             this.lines.length = 0;
@@ -7281,9 +7282,6 @@ class TextSplitter {
             }
             words.length = 0;
         }
-        if (canSplitLines || clearCache) {
-            this.effects.forEach((effect, i) => this.effectsCleanups[i] = effect(this));
-        }
         if (this.accessible && (canSplitLines || !isCached)) {
             const $accessible = doc.createElement('span');
             // Make the accessible element visually-hidden (https://www.scottohara.me/blog/2017/04/14/inclusively-hidden.html)
@@ -7296,6 +7294,9 @@ class TextSplitter {
             this.chars.forEach(setAriaHidden);
         }
         this.width = /** @type {HTMLElement} */ ($el).offsetWidth;
+        if (canSplitLines || clearCache) {
+            this.effects.forEach((effect, i) => this.effectsCleanups[i] = effect(this));
+        }
         return this;
     }
     refresh() {
