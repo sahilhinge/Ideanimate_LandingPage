@@ -1,23 +1,17 @@
 import {
   animate,
+  createTimeline,
   utils,
 } from '../../../lib/anime.esm.js';
 
-const buttons = /** @type {Array<HTMLButtonElement>} */(utils.$('.button'));
+utils.set('.square', {
+  y: 0,
+  rotate: 45,
+})
 
-const colors = ['#0FF', '#F0F', '#FF0'];
-
-const timekeepAnimate = utils.keepTime(duration => animate('.square', {
-  y: 200,
-  scale: utils.random(.8, .9, 2),
-  background: utils.randomPick(colors),
-  alternate: true,
+animate('.square', {
+  y: '+=50',
+  rotate: () => '+=10',
   loop: true,
-  duration
-}));
-
-buttons.forEach($button => {
-  $button.addEventListener('click', () => {
-    timekeepAnimate($button.innerText);
-  });
+  onLoop: self => self.refresh()
 });

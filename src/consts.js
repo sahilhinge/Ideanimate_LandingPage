@@ -3,10 +3,10 @@
 // TODO: Do we need to check if we're running inside a worker ?
 export const isBrowser = typeof window !== 'undefined';
 
-/** @type {Object|Null} */
-export const win = isBrowser ? window : null;
+/** @type {Window & {AnimeJS: Array}|null} */
+export const win = isBrowser ? /** @type {Window & {AnimeJS: Array}} */(/** @type {unknown} */(window)) : null;
 
-/** @type {Document} */
+/** @type {Document|null} */
 export const doc = isBrowser ? document : null;
 
 // Enums

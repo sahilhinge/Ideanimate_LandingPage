@@ -399,7 +399,8 @@ export class Draggable {
       this.deltaY = dy;
       this.coords[2] = x;
       this.coords[3] = y;
-      if (hasUpdated) {
+      // Check if dx or dy are not 0 to check if the draggable has actually moved https://github.com/juliangarnier/anime/issues/1032
+      if (hasUpdated && (dx || dy)) {
         this.onUpdate(this);
       }
       if (!hasReleased) {
@@ -1184,7 +1185,6 @@ export class Draggable {
       this.targetStyles.revert();
       this.targetStyles = null;
     }
-    this.stop();
     this.$target.classList.add('is-disabled');
     this.$trigger.removeEventListener('touchstart', this);
     this.$trigger.removeEventListener('mousedown', this);
@@ -1207,6 +1207,7 @@ export class Draggable {
     this.overshootYTicker.revert();
     this.resizeTicker.revert();
     this.animate.revert();
+    this.resizeObserver.disconnect();
     return this;
   }
 

@@ -703,7 +703,8 @@ export class JSAnimation extends Timer {
         tween._fromNumber = decomposedOriginalValue.n;
         tween._toNumbers = cloneArray(toTargetObject.d);
         tween._strings = cloneArray(toTargetObject.s);
-        tween._toNumber = toTargetObject.n;
+        // Make sure to apply relative operators https://github.com/juliangarnier/anime/issues/1025
+        tween._toNumber = toTargetObject.o ? getRelativeValue(decomposedOriginalValue.n, toTargetObject.n, toTargetObject.o) : toTargetObject.n;
       }
     });
     return this;
