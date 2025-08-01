@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ideanimate - AI-Powered Design Creation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-purple: #8B5CF6;
+            --secondary-purple: #A855F7;
+            --dark-purple: #4C1D95;
+            --darker-purple: #2E1065;
+            --accent-cyan: #06B6D4;
+            --accent-pink: #EC4899;
+            --text-white: #F8FAFC;
+            --text-gray: #CBD5E1;
+            --bg-dark: #0F0F23;
+            --bg-darker: #0A0A1A;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+            color: var(--text-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Background Animation */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            stroke: var(--primary-purple);
+            fill: transparent;
+            stroke-width: 2px;
+        }
+
+        .shape.small {
+            stroke: var(--accent-cyan);
+            fill: var(--accent-cyan);
+            opacity: 0.2;
+        }
+
+        /* Header */
+        .header {
+            position: relative;
+            padding: 2rem 0;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .logo-container {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+
+        .logo-text {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .logo-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-pink);
+            border-radius: 50%;
+            top: 50%;
+            right: -12px;
+            transform: translateY(-50%);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-gray);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Input Section */
+        .input-section {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 15px;
+            color: var(--text-white);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .text-input:focus {
+            border-color: var(--primary-purple);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .text-input::placeholder {
+            color: var(--text-gray);
+        }
+
+        .typewriter-cursor {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 1.5rem;
+            background: var(--accent-pink);
+            border-radius: 1px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-white);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Animation Section */
+        .animation-section {
+            text-align: center;
+            margin: 0;
+        }
+
+        .animation-section h2 {
+            margin: 0;
+            margin-bottom: 0.2rem;
+        }
+
+        .animation-container {
+            display: inline-block;
+            position: relative;
+            margin: 0;
+            width: 200px;
+            height: 50px;
+        }
+
+        .animation-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        /* Subtle divider line */
+        .section-divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            margin: 0.5rem auto;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Features Section */
+        .features-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .feature-card {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .input-section {
+                padding: 2rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <div class="floating-shapes">
+            <svg class="shape small" viewBox="0 0 96 96">
+                <rect width="48" height="48" x="24" y="24"/>
+            </svg>
+            <svg class="shape small" viewBox="0 0 96 96">
+                <polygon points="48 17.28 86.4 80.11584 9.6 80.11584"/>
+            </svg>
+            <svg class="shape small" viewBox="0 0 96 96">
+                <circle cx="48" cy="48" r="32"/>
+            </svg>
+            <svg class="shape" viewBox="0 0 96 96">
+                <circle cx="48" cy="48" r="28"/>
+            </svg>
+            <svg class="shape" viewBox="0 0 96 96">
+                <rect width="48" height="48" x="24" y="24"/>
+            </svg>
+            <svg class="shape" viewBox="0 0 96 96">
+                <polygon points="48 17.28 86.4 80.11584 9.6 80.11584"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo-container">
+            <div class="logo-text">ideanimate</div>
+            <div class="logo-dot"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">
+                <span class="title-word">Create</span>
+                <span class="title-word">Amazing</span>
+                <span class="title-word">Designs</span>
+                <span class="title-word">with</span>
+                <span class="title-word">AI</span>
+            </h1>
+            <p class="hero-subtitle">
+                Transform your ideas into stunning visuals with our AI-powered design platform. 
+                Just describe what you want, and watch the magic happen.
+            </p>
+        </section>
+
+        <!-- Input Section -->
+        <section class="input-section">
+            <div class="input-container">
+                <input 
+                    type="text" 
+                    class="text-input" 
+                    placeholder="Describe your design idea here..."
+                    id="designInput"
+                >
+                <div class="typewriter-cursor"></div>
+            </div>
+            <div class="button-group">
+                <button class="btn btn-primary" id="generateBtn">Generate Design</button>
+                <button class="btn btn-secondary" id="exploreBtn">Explore Examples</button>
+            </div>
+        </section>
+
+        <!-- Animation Section -->
+        <section class="animation-section">
+            <h2>Watch the Magic Happen</h2>
+            <div class="animation-container" id="animationContainer">
+            </div>
+            <div class="section-divider"></div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3 class="feature-title">AI-Powered</h3>
+                <p class="feature-description">
+                    Advanced AI algorithms understand your vision and create designs that match your imagination.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Lightning Fast</h3>
+                <p class="feature-description">
+                    Generate professional designs in seconds, not hours. Instant results for your creative needs.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Precise Control</h3>
+                <p class="feature-description">
+                    Fine-tune every aspect of your design with intuitive controls and real-time previews.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="./ideanimate-landing.js"></script>
+</body>
+</html> 
